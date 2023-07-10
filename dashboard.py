@@ -9,12 +9,16 @@ from graph import (
 
 PRIMARY = "#3b82f6"
 ACCENT = "#60a5fa"
+SECONDARY = "#6ee7b7"
+DESTRUCTIVE = "#fda4af" 
+BACKGROUND = "#cbd5e1"
+SLATE = "#334155"
 
 # create root window
 root = Tk()
 
 # root background
-root.configure(background='#cbd5e1')
+root.configure(background=BACKGROUND)
 
 # root window title and dimension
 root.title("WEATHER IOT")
@@ -66,14 +70,34 @@ plot_pm10_history(pm10_graph_frame)
 
 # ------------- MAIN FRAME -------------
 
-main_frame = Frame(root, height=800, bg='grey')
-main_frame.grid(row=1, column=1, columnspan=3, padx=8, pady=8, sticky="NEW")
+main_frame = Frame(root, height=800, bg=BACKGROUND)
+main_frame.grid(row=1, column=1, columnspan=3, padx=8, sticky="NEW")
 
 # Display image in main_frame
 image = PhotoImage(file="logo.png")
 original_image = image.subsample(3,3)  # resize image using subsample
-Label(main_frame, image=image).grid(row=0,column=0, padx=5, pady=5)
-Label(main_frame, image=image).grid(row=0,column=1, padx=5, pady=5)
-Label(main_frame, image=image).grid(row=0,column=3, padx=5, pady=5)
+
+for idx, param in enumerate(environment.generals):
+    general_param_frame = Frame(main_frame, width=200, bg=ACCENT)
+    general_param_frame.grid(row=0, column=idx, padx=5, pady=8, sticky="NSW")
+    name = Label(general_param_frame, text=param["name"], font='Montserrat 16', bg=ACCENT, fg=SLATE)
+    name.grid(row=0, column=0, padx=14, pady=14, sticky="W")
+    name = Label(general_param_frame, text=param["value"], font='Montserrat 32 bold', bg=ACCENT)
+    name.grid(row=1, column=0, padx=14, sticky="W")
+    void = Label(general_param_frame, text="", width=24, font='Montserrat 0', bg=ACCENT)
+    void.grid(row=2, column=0, padx=5, pady=5, sticky="W")
+    
+for idx, param in enumerate(environment.polluants):
+    row = int(idx/4) + 1
+    column = idx % 4
+    
+    general_param_frame = Frame(main_frame, width=160, bg=SECONDARY)
+    general_param_frame.grid(row=row, column=column, padx=5, pady=8, sticky="NSW")
+    name = Label(general_param_frame, text=param["name"], font='Montserrat 16', bg=SECONDARY, fg=SLATE)
+    name.grid(row=0, column=0, padx=14, pady=14, sticky="W")
+    name = Label(general_param_frame, text=param["value"], font='Montserrat 32 bold', bg=SECONDARY)
+    name.grid(row=1, column=0, padx=14, sticky="W")
+    void = Label(general_param_frame, text="", width=24, font='Montserrat 0', bg=SECONDARY)
+    void.grid(row=2, column=0, padx=5, pady=5, sticky="W")
 
 root.mainloop()

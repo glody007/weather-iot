@@ -1,6 +1,6 @@
 class Environment(): 
     generals = [
-        {"name": "Temperature", "value": 0, "unit": "c"},
+        {"name": "Temperature", "value": 32, "unit": "c"},
         {"name": "Humidite", "value": 0, "unit": ""},
         {"name": "PM2.5", "value": 0, "unit": ""},
         {"name": "PM10", "value": 0, "unit": ""}
