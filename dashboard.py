@@ -1,6 +1,11 @@
 # Import Module
 from tkinter import *
 from data import moment, location, environment
+from graph import (
+    plot_temperature_history, 
+    plot_humidity_history, 
+    plot_pm10_history
+)
 
 PRIMARY = "#3b82f6"
 ACCENT = "#60a5fa"
@@ -15,7 +20,8 @@ root.configure(background='#cbd5e1')
 root.title("WEATHER IOT")
 # Set geometry(widthxheight)
 root.maxsize(1305, 780)
-
+# set resizable width false
+root.resizable(False, True)
 
 # ------------- TOP BAR -------------
 
@@ -43,29 +49,21 @@ place_hour.grid(row=0, column=0, padx=4, pady=8)
 graph_frame = Frame(root, bg='grey')
 graph_frame.grid(row=1, column=0, pady=8, sticky="w")
 
-# Create frames and labels in graph_frame
-Label(graph_frame, text="Original Image").grid(row=0, column=0, padx=5, pady=5)
 
-# load image to be "edited"
-image = PhotoImage(file="logo.png")
-original_image = image.subsample(3,3)  # resize image using subsample
-Label(graph_frame, image=original_image).grid(row=1, column=0, padx=5, pady=5)
+# Create graph list frame
+temperature_graph_frame = Frame(graph_frame, width=400, height=185)
+temperature_graph_frame.grid(row=2)
 
+humidity_graph_frame = Frame(graph_frame, width=400, height=185)
+humidity_graph_frame.grid(row=3)
 
-# Create tool bar frame
-tool_bar = Frame(graph_frame, width=400, height=185)
-tool_bar.grid(row=2, column=0, padx=5, pady=5)
+pm10_graph_frame = Frame(graph_frame, width=400, height=185)
+pm10_graph_frame.grid(row=4)
 
-# Example labels that serve as placeholders for other widgets
-Label(tool_bar, text="Tools", relief=RAISED).grid(row=0, column=0, padx=5, pady=3, ipadx=10)  # ipadx is padding inside the Label widget
-Label(tool_bar, text="Filters", relief=RAISED).grid(row=0, column=1, padx=5, pady=3, ipadx=10)
+plot_temperature_history(temperature_graph_frame)
+plot_humidity_history(humidity_graph_frame)
+plot_pm10_history(pm10_graph_frame)
 
-# Example labels that could be displayed under the "Tool" menu
-Label(tool_bar, text="Select").grid(row=1, column=0, padx=5, pady=5)
-Label(tool_bar, text="Crop").grid(row=2, column=0, padx=5, pady=5)
-Label(tool_bar, text="Rotate & Flip").grid(row=3, column=0, padx=5, pady=5)
-Label(tool_bar, text="Resize").grid(row=4, column=0, padx=5, pady=5)
-Label(tool_bar, text="Exposure").grid(row=5, column=0, padx=5, pady=5)
 
 # ------------- MAIN FRAME -------------
 
@@ -73,8 +71,12 @@ main_frame = Frame(root, height=800, bg='grey')
 main_frame.grid(row=1, column=1, columnspan=3, padx=4, pady=8, sticky="NEW")
 
 # Display image in main_frame
+image = PhotoImage(file="logo.png")
+original_image = image.subsample(3,3)  # resize image using subsample
 Label(main_frame, image=image).grid(row=0,column=0, padx=5, pady=5)
 Label(main_frame, image=image).grid(row=0,column=1, padx=5, pady=5)
 Label(main_frame, image=image).grid(row=0,column=3, padx=5, pady=5)
+
+  
 
 root.mainloop()
