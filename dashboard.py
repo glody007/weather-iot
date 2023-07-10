@@ -47,8 +47,7 @@ place_hour.grid(row=0, column=0, padx=4, pady=8)
 # ------------- GRAPH FRAME -------------
 
 graph_frame = Frame(root, bg='grey')
-graph_frame.grid(row=1, column=0, pady=8, sticky="w")
-
+graph_frame.grid(row=1, column=0, padx=8, pady=8, sticky="w")
 
 # Create graph list frame
 temperature_graph_frame = Frame(graph_frame, width=400, height=185)
@@ -68,7 +67,7 @@ plot_pm10_history(pm10_graph_frame)
 # ------------- MAIN FRAME -------------
 
 main_frame = Frame(root, height=800, bg='grey')
-main_frame.grid(row=1, column=1, columnspan=3, padx=4, pady=8, sticky="NEW")
+main_frame.grid(row=1, column=1, columnspan=3, padx=8, pady=8, sticky="NEW")
 
 # Display image in main_frame
 image = PhotoImage(file="logo.png")
@@ -76,7 +75,5 @@ original_image = image.subsample(3,3)  # resize image using subsample
 Label(main_frame, image=image).grid(row=0,column=0, padx=5, pady=5)
 Label(main_frame, image=image).grid(row=0,column=1, padx=5, pady=5)
 Label(main_frame, image=image).grid(row=0,column=3, padx=5, pady=5)
-
-  
 
 root.mainloop()
