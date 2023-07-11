@@ -1,11 +1,8 @@
 # Import Module
+import math
 from tkinter import *
 from data import moment, location, environment
-from graph import (
-    plot_temperature_history, 
-    plot_humidity_history, 
-    plot_pm10_history
-)
+from graph import plot_params_history
 
 PRIMARY = "#3b82f6"
 ACCENT = "#60a5fa"
@@ -13,6 +10,10 @@ SECONDARY = "#6ee7b7"
 DESTRUCTIVE = "#fda4af" 
 BACKGROUND = "#cbd5e1"
 SLATE = "#334155"
+
+PARAM_COLUMNS = 4
+PARAM_GENERAL_ROWS = math.ceil(len(environment.generals) / PARAM_COLUMNS)
+PARAM_POLLUANT_ROWS = math.ceil(len(environment.polluants) / PARAM_COLUMNS)
 
 # create root window
 root = Tk()
@@ -23,7 +24,7 @@ root.configure(background=BACKGROUND)
 # root window title and dimension
 root.title("WEATHER IOT")
 # Set geometry(widthxheight)
-root.maxsize(1305, 780)
+root.maxsize(1305, 784)
 # set resizable width false
 root.resizable(False, True)
 
@@ -51,22 +52,14 @@ place_hour.grid(row=0, column=0, padx=4, pady=8)
 # ------------- GRAPH FRAME -------------
 
 graph_frame = Frame(root, bg='grey')
-graph_frame.grid(row=1, column=0, padx=8, pady=8, sticky="w")
+graph_frame.grid(row=1, column=0, padx=8, pady=8, sticky=NW)
 
 # Create graph list frame
-temperature_graph_frame = Frame(graph_frame, width=400, height=185)
-temperature_graph_frame.grid(row=2)
-
-humidity_graph_frame = Frame(graph_frame, width=400, height=185)
-humidity_graph_frame.grid(row=3)
-
-pm10_graph_frame = Frame(graph_frame, width=400, height=185)
-pm10_graph_frame.grid(row=4)
-
-plot_temperature_history(temperature_graph_frame)
-plot_humidity_history(humidity_graph_frame)
-plot_pm10_history(pm10_graph_frame)
-
+# plot one graph per row of polluants
+for i in range(PARAM_POLLUANT_ROWS):
+    graph_item_frame = Frame(graph_frame, width=400, height=100)
+    graph_item_frame.grid(row=i)
+    plot_params_history(graph_item_frame, [])
 
 # ------------- MAIN FRAME -------------
 
@@ -78,8 +71,11 @@ image = PhotoImage(file="logo.png")
 original_image = image.subsample(3,3)  # resize image using subsample
 
 for idx, param in enumerate(environment.generals):
+    row = int(idx / PARAM_COLUMNS)
+    column = idx % PARAM_COLUMNS
+    
     general_param_frame = Frame(main_frame, width=200, bg=ACCENT)
-    general_param_frame.grid(row=0, column=idx, padx=5, pady=8, sticky="NSW")
+    general_param_frame.grid(row=row, column=column, padx=5, pady=8, sticky="NSW")
     name = Label(general_param_frame, text=param["name"], font='Montserrat 16', bg=ACCENT, fg=SLATE)
     name.grid(row=0, column=0, padx=14, pady=14, sticky="W")
     name = Label(general_param_frame, text=param["value"], font='Montserrat 32 bold', bg=ACCENT)
@@ -88,8 +84,8 @@ for idx, param in enumerate(environment.generals):
     void.grid(row=2, column=0, padx=5, pady=5, sticky="W")
     
 for idx, param in enumerate(environment.polluants):
-    row = int(idx/4) + 1
-    column = idx % 4
+    row = int(idx / PARAM_COLUMNS) + PARAM_GENERAL_ROWS
+    column = idx % PARAM_COLUMNS
     
     general_param_frame = Frame(main_frame, width=160, bg=SECONDARY)
     general_param_frame.grid(row=row, column=column, padx=5, pady=8, sticky="NSW")
