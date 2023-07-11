@@ -2,7 +2,7 @@
 import math
 from tkinter import *
 from data import moment, location, environment
-from graph import plot_params_history
+from graph import plot_polluants_history
 
 PRIMARY = "#3b82f6"
 ACCENT = "#60a5fa"
@@ -75,7 +75,7 @@ for i in range(PARAM_POLLUANT_ROWS):
         row_polluants = environment.polluants[start_slice_idx:]
 
     # Plot graph for polluants in the row
-    plot_params_history(graph_item_frame, row_polluants)
+    plot_polluants_history(graph_item_frame, row_polluants)
 
 # ------------- MAIN FRAME -------------
 

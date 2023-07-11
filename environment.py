@@ -1,3 +1,5 @@
+import random
+
 class Environment(): 
     generals = [
         {"name": "Temperature", "value": 32, "unit": "c"},
@@ -23,3 +25,6 @@ class Environment():
         {"name": "NH3", "value": 0, "unit": ""},
         {"name": "Air quality", "value": 0, "unit": ""}
     ]
+    
+    def get_polluant_history(self, name): 
+        return [random.randint(1, 10) for day in (range(7))]
