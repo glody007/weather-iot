@@ -1,30 +1,55 @@
 import random
+from datetime import datetime
+from config import Parameters
+from model import Data, WEEK
 
 class Environment(): 
     generals = [
-        {"name": "Temperature", "value": 32, "unit": "c"},
-        {"name": "Humidite", "value": 0, "unit": ""},
-        {"name": "PM2.5", "value": 0, "unit": ""},
-        {"name": "PM10", "value": 0, "unit": ""}
-    ]
-    polluants = [
-        {"name": "C7H8", "value": 0, "unit": ""},
-        {"name": "C3H6O", "value": 0, "unit": ""},
-        {"name": "H2", "value": 0, "unit": ""},
-        {"name": "NOx", "value": 0, "unit": ""},
-        {"name": "CL2", "value": 0, "unit": ""},
-        {"name": "O3", "value": 0, "unit": ""},
-        {"name": "Benzene", "value": 0, "unit": ""},
-        {"name": "Hexane", "value": 0, "unit": ""},
-        {"name": "Alcool", "value": 0, "unit": ""},
-        {"name": "Methane", "value": 0, "unit": ""},
-        {"name": "LPG", "value": 0, "unit": ""},
-        {"name": "HS2", "value": 0, "unit": ""},
-        {"name": "CO", "value": 0, "unit": ""},
-        {"name": "CO2", "value": 0, "unit": ""},
-        {"name": "NH3", "value": 0, "unit": ""},
-        {"name": "Air quality", "value": 0, "unit": ""}
+        {"name": Parameters.TEMPERATURE, "value": 32, "unit": "c"},
+        {"name": Parameters.HUMIDITY, "value": 0, "unit": ""},
+        {"name": Parameters.PM2_5, "value": 0, "unit": ""},
+        {"name": Parameters.PM10, "value": 0, "unit": ""}
     ]
     
+    polluants = [
+        {"name": Parameters.C7H8, "value": 0, "unit": ""},
+        {"name": Parameters.C3H6O, "value": 0, "unit": ""},
+        {"name": Parameters.H2, "value": 0, "unit": ""},
+        {"name": Parameters.NOX, "value": 0, "unit": ""},
+        {"name": Parameters.CL2, "value": 0, "unit": ""},
+        {"name": Parameters.O3, "value": 0, "unit": ""},
+        {"name": Parameters.BENZENE, "value": 0, "unit": ""},
+        {"name": Parameters.HEXANE, "value": 0, "unit": ""},
+        {"name": Parameters.ALCOOL, "value": 0, "unit": ""},
+        {"name": Parameters.METHANE, "value": 0, "unit": ""},
+        {"name": Parameters.LPG, "value": 0, "unit": ""},
+        {"name": Parameters.HS2, "value": 0, "unit": ""},
+        {"name": Parameters.CO, "value": 0, "unit": ""},
+        {"name": Parameters.CO2, "value": 0, "unit": ""},
+        {"name": Parameters.NH3, "value": 0, "unit": ""},
+        {"name": Parameters.AIR_QUALITY, "value": 0, "unit": ""}
+    ]
+    
+    def get_dict_from_data(self, data):
+        return { 
+            "name": data.name, 
+            "time": datetime.now(), 
+            "value": data.value 
+        }
+        
+    def get_random_data_dict(self, name):
+        return { 
+            "name": name, 
+            "time": datetime.now(), 
+            "value": random.randint(1, 10)
+        }
+    
+    def get_random_history(self, name):
+        return [self.get_random_data_dict(name) for day in (range(7))]
+    
+    
     def get_polluant_history(self, name): 
-        return [random.randint(1, 10) for day in (range(7))]
+        return [
+            self.get_dict_from_data(data) for data in Data.history(name=name, range=WEEK)
+        ]
+        

@@ -19,7 +19,8 @@ def plot_polluants_history(frame, polluants, dpi=30):
     
     # # Plot for params in the list
     for polluant in polluants:
-        plot.plot(environment.get_polluant_history(polluant['name']))
+        history = environment.get_polluant_history(polluant['name'])
+        plot.plot([data["value"] for data in history])
   
     # creating the Tkinter canvas
     # containing the Matplotlib figure
