@@ -42,9 +42,18 @@ logo_frame.grid(row=0, column=1, sticky=W)
 place_hour_frame = Frame(top_frame)
 place_hour_frame.grid(row=0, column=2, columnspan=3, padx=4, pady=4, sticky="E")
 
-main_title = Label(logo_frame, text="WEATHER IOT", font='Montserrat 25 bold', fg=PRIMARY)
-main_title.grid(row=0, column=0, padx=4, pady=8)
+# Logo
+image = PhotoImage(file="logo.png")
+logo_image = image.subsample(3,3)  # resize image using subsample
 
+logo = Label(logo_frame, image=logo_image)
+logo.grid(row=0, column=0, padx=4, pady=8)
+
+# Title
+main_title = Label(logo_frame, text="WEATHER IOT", font='Montserrat 25 bold', fg=PRIMARY)
+main_title.grid(row=0, column=1, padx=4, pady=8)
+
+# Location and hour
 location_hour = "{city} - {full_date}".format(city=location.city, full_date=moment.full)
 place_hour = Label(place_hour_frame, text=location_hour, font='Montserrat 20', fg=ACCENT)
 place_hour.grid(row=0, column=0, padx=4, pady=8)
@@ -81,10 +90,6 @@ for i in range(PARAM_POLLUANT_ROWS):
 
 main_frame = Frame(root, height=800, bg=BACKGROUND)
 main_frame.grid(row=1, column=1, columnspan=3, padx=8, sticky="NEW")
-
-# Display image in main_frame
-image = PhotoImage(file="logo.png")
-original_image = image.subsample(3,3)  # resize image using subsample
 
 # Plot one card per general param
 # Showing name, value and unit
