@@ -20,5 +20,6 @@ class Environment():
         {"name": "HS2", "value": 0, "unit": ""},
         {"name": "CO", "value": 0, "unit": ""},
         {"name": "CO2", "value": 0, "unit": ""},
-        {"name": "NH3", "value": 0, "unit": ""}
+        {"name": "NH3", "value": 0, "unit": ""},
+        {"name": "Air quality", "value": 0, "unit": ""}
     ]
