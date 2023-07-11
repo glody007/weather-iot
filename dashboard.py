@@ -55,11 +55,27 @@ graph_frame = Frame(root, bg='grey')
 graph_frame.grid(row=1, column=0, padx=8, pady=8, sticky=NW)
 
 # Create graph list frame
-# plot one graph per row of polluants
+# Plot one graph per row of polluants
 for i in range(PARAM_POLLUANT_ROWS):
     graph_item_frame = Frame(graph_frame, width=400, height=100)
     graph_item_frame.grid(row=i)
-    plot_params_history(graph_item_frame, [])
+    
+    # Slice to select only polluants of the row to plot
+    start_slice_idx = i * PARAM_COLUMNS
+
+    row_polluants = []
+    # if it is not the last row we compute the last index
+    # and we slice from start index to the last index
+    if i + 1 < PARAM_POLLUANT_ROWS:
+        end_slice_idx = start_slice_idx + PARAM_COLUMNS
+        row_polluants = environment.polluants[start_slice_idx : end_slice_idx]
+    # if it is the last row 
+    # we slice from start index to the end of list
+    else:
+        row_polluants = environment.polluants[start_slice_idx:]
+
+    # Plot graph for polluants in the row
+    plot_params_history(graph_item_frame, row_polluants)
 
 # ------------- MAIN FRAME -------------
 
@@ -70,6 +86,8 @@ main_frame.grid(row=1, column=1, columnspan=3, padx=8, sticky="NEW")
 image = PhotoImage(file="logo.png")
 original_image = image.subsample(3,3)  # resize image using subsample
 
+# Plot one card per general param
+# Showing name, value and unit
 for idx, param in enumerate(environment.generals):
     row = int(idx / PARAM_COLUMNS)
     column = idx % PARAM_COLUMNS
@@ -83,6 +101,8 @@ for idx, param in enumerate(environment.generals):
     void = Label(general_param_frame, text="", width=24, font='Montserrat 0', bg=ACCENT)
     void.grid(row=2, column=0, padx=5, pady=5, sticky="W")
     
+# Plot one card per polluant
+# Showing name, value and unit
 for idx, param in enumerate(environment.polluants):
     row = int(idx / PARAM_COLUMNS) + PARAM_GENERAL_ROWS
     column = idx % PARAM_COLUMNS
