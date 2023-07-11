@@ -20,3 +20,29 @@ class Parameters:
     CO2 = "CO2"
     NH3 = "NH3"
     AIR_QUALITY = "Air quality"
+    
+general_parameters = [
+    Parameters.TEMPERATURE, 
+    Parameters.HUMIDITY, 
+    Parameters.PM2_5, 
+    Parameters.PM10
+]
+
+polluants = [
+    Parameters.C7H8,
+    Parameters.C3H6O,
+    Parameters.H2,
+    Parameters.NOX,
+    Parameters.CL2,
+    Parameters.O3,
+    Parameters.BENZENE,
+    Parameters.HEXANE,
+    Parameters.ALCOOL,
+    Parameters.METHANE,
+    Parameters.LPG,
+    Parameters.HS2,
+    Parameters.CO,
+    Parameters.CO2,
+    Parameters.NH3,
+    Parameters.AIR_QUALITY
+]

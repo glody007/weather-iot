@@ -5,3 +5,4 @@ from environment import Environment
 location = Location()
 moment = Moment()
 environment = Environment()
+environment.update()

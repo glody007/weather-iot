@@ -1,34 +1,24 @@
 import random
 from datetime import datetime
-from config import Parameters
+from config import Parameters, polluants, general_parameters
 from model import Data, WEEK
 
 class Environment(): 
-    generals = [
-        {"name": Parameters.TEMPERATURE, "value": 32, "unit": "c"},
-        {"name": Parameters.HUMIDITY, "value": 0, "unit": ""},
-        {"name": Parameters.PM2_5, "value": 0, "unit": ""},
-        {"name": Parameters.PM10, "value": 0, "unit": ""}
-    ]
     
-    polluants = [
-        {"name": Parameters.C7H8, "value": 0, "unit": ""},
-        {"name": Parameters.C3H6O, "value": 0, "unit": ""},
-        {"name": Parameters.H2, "value": 0, "unit": ""},
-        {"name": Parameters.NOX, "value": 0, "unit": ""},
-        {"name": Parameters.CL2, "value": 0, "unit": ""},
-        {"name": Parameters.O3, "value": 0, "unit": ""},
-        {"name": Parameters.BENZENE, "value": 0, "unit": ""},
-        {"name": Parameters.HEXANE, "value": 0, "unit": ""},
-        {"name": Parameters.ALCOOL, "value": 0, "unit": ""},
-        {"name": Parameters.METHANE, "value": 0, "unit": ""},
-        {"name": Parameters.LPG, "value": 0, "unit": ""},
-        {"name": Parameters.HS2, "value": 0, "unit": ""},
-        {"name": Parameters.CO, "value": 0, "unit": ""},
-        {"name": Parameters.CO2, "value": 0, "unit": ""},
-        {"name": Parameters.NH3, "value": 0, "unit": ""},
-        {"name": Parameters.AIR_QUALITY, "value": 0, "unit": ""}
-    ]
+    generals = []
+    polluants = []
+    
+    def get_param(self, name):
+        data = Data.last(name=name)
+        return {
+            "name": name, 
+            "value": data.value if data is not None else 0, 
+            "unit": ""
+        } 
+    
+    def update(self):
+        self.generals = [self.get_param(name) for name in general_parameters]
+        self.polluants = [self.get_param(name) for name in polluants]
     
     def get_dict_from_data(self, data):
         return { 

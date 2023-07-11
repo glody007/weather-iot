@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 from sqlalchemy import create_engine
 from sqlalchemy import select
+from config import Parameters
 
 ALL = 'all'
 WEEK = 'week'
@@ -31,6 +32,12 @@ class Data(Base):
         with Session(engine) as session:
             session.add(this_row)
             session.commit()
+            
+    @staticmethod
+    def last(name):
+        stmt = select(Data).where(Data.name == name).order_by(Data.created_date.desc())
+        with Session(engine) as session:   
+            return session.scalars(stmt).first()
         
     @staticmethod
     def history(name=ALL, range=ALL):
@@ -78,6 +85,7 @@ engine = initialize_engine(file_name)
 initialize_tables(engine)
 
 if __name__ == "__main__":
-    #Data.add("NOx", 2)
+    Data.add(Parameters.NOX, 9)
     for data in Data.history(name="NOx", range=WEEK):
         print(data)
+    print(Data.last(name="CO2"))

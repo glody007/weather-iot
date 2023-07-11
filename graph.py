@@ -8,7 +8,7 @@ from data import environment
 # plot function is created for 
 # plotting the graphs of params in list in 
 # tkinter window
-def plot_polluants_history(frame, polluants, dpi=30):
+def plot_polluants_history(frame, polluants, dpi=28):
   
     # the figure that will contain the plot
     fig = Figure(figsize = (5, 5),
